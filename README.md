@@ -2,6 +2,12 @@
 
 An application that allows users to connect on a platform to synchronize their shared viewing of online content.
 
+## Collaborators
+
+- [@ZedMalatesta](https://github.com/ZedMalatesta)
+- [@olucens](https://github.com/olucens)
+- [@amelur](https://github.com/amelur)
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
 
 ## Development server
