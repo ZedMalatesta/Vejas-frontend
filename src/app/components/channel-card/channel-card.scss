@@ -131,3 +131,15 @@
   max-height: calc(1.4em * 10);
   height: auto;
 }
+
+@media (max-width: 720px) {
+	.channel-card {
+    --card-height: 320px;
+  }
+}
+
+@media (max-width: 1080px) {
+	.channel-card {
+    --card-height: 320px;
+  }
+}
