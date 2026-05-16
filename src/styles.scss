@@ -1,12 +1,75 @@
+/* Global theme variables and base styles
+   - Two themes: light and dark
+   - Prefer system preference (prefers-color-scheme). If not available,
+     JS will set data-theme based on local time of day.
+*/
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background: #1a1b1e;
-  color: #c9d1d9;
-  min-height: 100vh;
+:root {
+  /* Light theme defaults */
+  --app-bg: #ffffff;
+  --app-text: #0f1721;
+  --app-muted: #475569;
+  --app-surface: #f8fafc;
+  --app-border: rgba(2,6,23,0.06);
+  --app-accent: #0369a1;
+  --app-accent-glow: rgba(3,105,161,0.2);
+  --app-muted-bg: rgba(15,23,42,0.04);
+  color-scheme: light;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-bg: #071226;
+    --app-text: #e6eef8;
+    --app-muted: #94a3b8;
+    --app-surface: #0e1622;
+    --app-border: rgba(255,255,255,0.06);
+    --app-accent: #22d3ee;
+    --app-accent-glow: rgba(34,211,238,0.12);
+    --app-muted-bg: rgba(255,255,255,0.03);
+    color-scheme: dark;
+  }
+}
+
+[data-theme="light"] {
+  --app-bg: #ffffff;
+  --app-text: #0f1721;
+  --app-muted: #475569;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --app-bg: #071226;
+  --app-text: #e6eef8;
+  --app-muted: #94a3b8;
+  --app-surface: #0e1622;
+  --app-border: rgba(255,255,255,0.06);
+  --app-accent: #2bc1d8;
+  --app-accent-glow: rgba(34,211,238,0.12);
+  --app-muted-bg: rgba(255,255,255,0.03);
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+svg { fill: currentColor; }
+
+a { color: inherit; }
+h1,h2,h3,h4,h5,h6 { color: var(--app-text); }
+p, li, span { color: var(--app-text); }
+
+.muted { color: var(--app-muted); }
+.bg-app { background: var(--app-bg); }
