@@ -1,0 +1,15 @@
+<section class="channel-list">
+	<header class="channel-list__header">
+		<p class="channel-list__eyebrow">Live now</p>
+		<h2 class="channel-list__title">Popular channels</h2>
+		<p class="channel-list__subtitle">
+			Pick a channel and jump into the stream you want to watch.
+		</p>
+	</header>
+
+	<div class="channel-list__grid" role="list">
+		@for (channel of channelItems(); track channel.id) {
+			<app-channel-card [channel]="channel" />
+		}
+	</div>
+</section>
