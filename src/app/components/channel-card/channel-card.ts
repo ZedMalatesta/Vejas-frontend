@@ -13,7 +13,7 @@ export class ChannelCard {
 
   name = computed(() => this.channel().name);
   description = computed(() => this.channel().description);
-  avatarUrl = computed(() => this.channel().avatarUrl);
+  coverUrl = computed(() => this.channel().coverUrl);
   category = computed(() => this.channel().category);
   viewers = computed(() =>  this.numPipe.transform(this.channel().viewers));
 }

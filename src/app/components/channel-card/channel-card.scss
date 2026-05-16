@@ -8,23 +8,24 @@
 	overflow: hidden;
 	background: var(--app-surface);
 	border: 1px solid var(--app-border);
-	/* collapsed/expanded heights */
-	--card-collapsed-height: 320px;
-	--card-expanded-height: 380px;
-	height: var(--card-collapsed-height);
-	transition: height 240ms ease, transform 200ms ease, box-shadow 200ms ease;
+
+	--card-height: 320px;
+	--card-media-height: calc(var(--card-height) * 0.6);
+  --card-content-height: calc(var(--card-height) - var(--card-media-height));
+
+  height: var(--card-height);
+  transition: max-height 320ms ease, transform 400ms ease, box-shadow 400ms ease;
 }
 
 
 .channel-card__media {
 	position: relative;
 	overflow: hidden;
-	/* media height is 55% of card height */
-	height: calc(var(--card-collapsed-height) * 0.55);
+	height: var(--card-media-height);
 	transition: height 240ms ease;
 }
 
-.channel-card__avatar {
+.channel-card__cover {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -32,12 +33,16 @@
 }
 
 .channel-card__content {
-	min-width: 0;
 	flex: 1 1 auto;
-	padding: 1rem;
-	padding-bottom: 3.25rem;
+	display: flex;
+	flex-direction: column;
+  padding: 0.75rem;
 	position: relative;
 	overflow: hidden;
+	max-height: calc(var(--card-height) * 0.4);
+  height: auto;
+  min-height: var(--card-content-height);
+  transition: max-height 320ms ease;
 }
 
 .channel-card__category {
@@ -60,58 +65,69 @@
 	box-shadow: 0 6px 18px var(--app-accent-glow);
 }
 
-/* title-row removed - simplified content flow */
-
 .channel-card__name {
-	margin: 0 0 0.25rem 0;
 	color: var(--app-text);
 	font-size: 1rem;
 	font-weight: 700;
 	line-height: 1.2;
-}
-
-.channel-card__viewers {
-	position: absolute;
-	right: 0.75rem;
-	bottom: 0.75rem;
-	padding: 0.35rem 0.6rem;
-	border-radius: 999px;
-	background: var(--app-accent);
-	color: var(--app-text);
-	font-size: 0.75rem;
-	font-weight: 700;
-	white-space: nowrap;
-	box-shadow: 0 6px 18px var(--app-accent-glow);
+	flex: 0 0 auto;
 }
 
 .channel-card__description {
-	margin: 0;
-	color: var(--app-muted);
-	font-size: 0.9375rem;
-	line-height: 1.4;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 3; /* collapsed to 3 lines */
-	line-clamp: 3;
-	text-overflow: ellipsis;
-	transition: -webkit-line-clamp 160ms ease, max-height 160ms ease;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(1.4em * 3); /* 3 lines of text */
+  transition: max-height 320ms ease-in-out;
 }
 
-/* hover behaviour: expand card height and media proportionally, show full description */
+
+.channel-card__footer {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 0 auto;
+
+	padding: 0.1rem;
+}
+
+.channel-card__viewers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	width: fit-content;
+	margin-left: auto;
+	padding: 0.35rem 0.6rem;
+	border-radius: 999px;
+	color: var(--app-text);
+	font-size: 0.75rem;
+  font-weight: 600;
+}
+
+
+
 .channel-card:hover {
 	transform: translateY(-6px);
+
+  --card-content-height: calc(min(var(--card-height) * 0.8, var(--card-content-height)));
+  --card-media-height: calc(var(--card-height) * 0.2);
+
+  text-overflow: hidden;
 	box-shadow: 0 18px 48px rgba(2,6,23,0.12);
-	height: var(--card-expanded-height);
+}
+
+.channel-card:hover .channel-card__content {
+  max-height: calc(1.4em * 10);
 }
 
 .channel-card:hover .channel-card__media {
-	height: calc(var(--card-expanded-height) * 0.5);
+	height: var(--card-media-height);
 }
 
 .channel-card:hover .channel-card__description {
-	-webkit-line-clamp: unset;
-	line-clamp: none;
-	max-height: 999px;
-	display: block;
+  -webkit-line-clamp: 8;
+  max-height: calc(1.4em * 10);
+  height: auto;
 }
