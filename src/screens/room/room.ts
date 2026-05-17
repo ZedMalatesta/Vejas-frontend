@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { VideoPlayer } from '../../shared/video-player/video-player';
-import { TextInput } from '../../shared/text-input/text-input';
+import { LinkInput } from '../../shared/link-input/link-input';
 import { extractVideoId } from '../../shared/video-player/extract-video-id';
 
 @Component({
   selector: 'app-room',
-  imports: [VideoPlayer, TextInput],
+  imports: [VideoPlayer, LinkInput],
   templateUrl: './room.html',
   styleUrl: './room.scss',
 })
