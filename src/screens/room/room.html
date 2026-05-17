@@ -1,3 +1,4 @@
 <div class="room">
   <app-video-player [videoId]="videoId()" />
+  <app-text-input placeholder="Paste YouTube link..." (submit)="onSubmit($event)" />
 </div>
