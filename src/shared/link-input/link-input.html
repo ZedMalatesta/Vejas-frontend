@@ -1,0 +1,8 @@
+<div class="link-input">
+  <app-text-input
+    placeholder="Paste YouTube link..."
+    (valueChange)="currentValue.set($event)"
+    (submit)="submit.emit($event)"
+  />
+  <app-button label="Add link" (clicked)="submit.emit(currentValue())" />
+</div>

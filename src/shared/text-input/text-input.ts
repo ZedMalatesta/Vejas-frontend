@@ -7,12 +7,15 @@ import { Component, input, output, signal } from '@angular/core';
 })
 export class TextInput {
   readonly placeholder = input('');
+  readonly valueChange = output<string>();
   readonly submit = output<string>();
 
   readonly value = signal('');
 
   onInput(event: Event): void {
-    this.value.set((event.target as HTMLInputElement).value);
+    const val = (event.target as HTMLInputElement).value;
+    this.value.set(val);
+    this.valueChange.emit(val);
   }
 
   onKeydown(event: KeyboardEvent): void {
