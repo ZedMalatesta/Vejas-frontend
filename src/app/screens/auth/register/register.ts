@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {AuthService} from "../../../shared/services/auth.service";
+import {AuthService} from "../../../core/services/auth.service";
 import {FormBuilder, ReactiveFormsModule, Validators,} from '@angular/forms';
 
 @Component({

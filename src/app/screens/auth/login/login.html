@@ -46,20 +46,15 @@
 
     <hr/>
 
-    <button
-            (click)="loginGoogle()"
-            type="button"
-    >
-        Continue with Google
-    </button>
+    <app-auth-button
+            (clicked)="loginGoogle()"
+            [text]="'Continue with Google'"
+    />
 
-    <button
-            (click)="loginGithub()"
-            type="button"
-    >
-        Continue with GitHub
-    </button>
-
+    <app-auth-button
+            (clicked)="loginGithub()"
+            [text]="'Continue with GitHub'"
+    />
 
     <hr/>
 
