@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ChannelList } from '../../components/channel-list/channel-list';
-import { CahnnelService } from '../../services/cahnnel-service';
+import { ChannelList } from './components/channel-list/channel-list';
+import { CahnnelService } from '../../core/services/channels-service/cahnnel-service';
 
 @Component({
   selector: 'app-home-page',
