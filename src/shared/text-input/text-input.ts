@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-text-input',
@@ -6,9 +6,9 @@ import { Component, input, output, signal } from '@angular/core';
   styleUrl: './text-input.scss',
 })
 export class TextInput {
-  readonly placeholder = input('');
-  readonly valueChange = output<string>();
-  readonly submit = output<string>();
+  @Input() placeholder = '';
+  @Output() valueChange = new EventEmitter<string>();
+  @Output() submit = new EventEmitter<string>();
 
   readonly value = signal('');
 
