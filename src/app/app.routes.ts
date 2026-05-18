@@ -1,11 +1,21 @@
 import { Routes } from '@angular/router';
-import {Login} from "./screens/auth/login/login";
-import {Register} from "./screens/auth/register/register";
-import {HomePage} from "./screens/home-page/home-page";
+import { Room } from '../screens/room/room';
+import { Login } from "./screens/auth/login/login";
+import { Register } from "./screens/auth/register/register";
+import { HomePage } from "./screens/home-page/home-page";
 
 export const routes: Routes = [
+  {
+    path: '', 
+    redirectTo: 'room',
+    pathMatch: 'full'
+  },
+  {
+    path: 'room',
+    component: Room,
+  },
 	{
-		path: '',
+		path: 'home',
 		component: HomePage,
 	},
   {
@@ -20,4 +30,4 @@ export const routes: Routes = [
     path: '**',
     redirectTo: '',
   }
-];
+
