@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { TextInput } from '../text-input/text-input';
 import { Button } from '../button/button';
 
@@ -9,7 +9,6 @@ import { Button } from '../button/button';
   styleUrl: './link-input.scss',
 })
 export class LinkInput {
-  @Output() submit = new EventEmitter<string>();
-
+  readonly submit = output<string>();
   readonly currentValue = signal('');
 }
