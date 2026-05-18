@@ -1,18 +1,20 @@
-import {Component, inject} from '@angular/core';
-import {AuthService} from "../../../shared/services/auth.service";
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {AuthService} from "../../../core/services/auth.service";
 import {FormBuilder, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {RouterLink} from "@angular/router";
-
+import {AuthButton} from '../../../shared/ui/auth-button/auth-button';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink, AuthButton],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class Login implements OnInit, OnDestroy {
   authService = inject(AuthService);
   private fb = inject(FormBuilder);
+
   form = this.fb.group({
     email: [
       '',
@@ -52,5 +54,13 @@ export class Login {
 
   loginGithub() {
     this.authService.signInWithGithub();
+  }
+
+  ngOnInit() {
+    console.log('Login init');
+  }
+
+  ngOnDestroy() {
+    console.log('Login destroy');
   }
 }
