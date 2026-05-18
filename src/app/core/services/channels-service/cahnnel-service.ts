@@ -1,6 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { CHANNELS_MOCK_DATA } from '../models/channels.data';
-import { ChannelData } from '../models/channels.model';
+import { CHANNELS_MOCK_DATA } from '../../../models/channels.data';
+import { ChannelData } from '../../../models/channels.model';
 
 @Injectable({
   providedIn: 'root',

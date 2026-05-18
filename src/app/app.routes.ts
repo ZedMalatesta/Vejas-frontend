@@ -12,4 +12,5 @@ export const routes: Routes = [
   { path: 'room', component: Room },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
+  { path: '**', redirectTo: '' },
 ];

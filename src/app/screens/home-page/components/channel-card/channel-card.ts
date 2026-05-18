@@ -1,6 +1,6 @@
 import { Component, input, computed } from '@angular/core';
-import { ChannelData } from '../../models/channels.model';
-import { ViewersPipe } from '../../pipes/viewers-pipe';
+import { ChannelData } from '../../../../models/channels.model';
+import { ViewersPipe } from '../../../../core/pipes/viewers-pipe';
 
 @Component({
   selector: 'app-channel-card',
