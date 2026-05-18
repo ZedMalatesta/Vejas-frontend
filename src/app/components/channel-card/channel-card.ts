@@ -1,6 +1,6 @@
 import { Component, input, computed } from '@angular/core';
 import { ChannelData } from '../../models/channels.model';
-import { NumbersShortPipe } from '../../pipes/numbers-short-pipe';
+import { ViewersPipe } from '../../pipes/viewers-pipe';
 
 @Component({
   selector: 'app-channel-card',
@@ -9,11 +9,11 @@ import { NumbersShortPipe } from '../../pipes/numbers-short-pipe';
 })
 export class ChannelCard {
   readonly channel = input.required<ChannelData>();
-  numPipe = new NumbersShortPipe();
+  viewersPipe = new ViewersPipe();
 
   name = computed(() => this.channel().name);
   description = computed(() => this.channel().description);
   coverUrl = computed(() => this.channel().coverUrl);
   category = computed(() => this.channel().category);
-  viewers = computed(() =>  this.numPipe.transform(this.channel().viewers));
+  viewers = computed(() =>  this.viewersPipe.transform(this.channel().viewers));
 }
