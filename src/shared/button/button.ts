@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -6,6 +6,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './button.scss',
 })
 export class Button {
-  @Input() label = '';
-  @Output() clicked = new EventEmitter<void>();
+  readonly label = input('');
+  readonly clicked = output();
 }
