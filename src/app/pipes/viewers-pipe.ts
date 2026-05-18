@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'numbersShort',
+  name: 'viewers',
 })
-export class NumbersShortPipe implements PipeTransform {
+export class ViewersPipe implements PipeTransform {
   transform(value: string): string {
     const numericValue = parseInt(value, 10);
     if (numericValue >= 1000000000) {
