@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { ChannelData } from '../../models/channels.model';
 import { ChannelCard } from '../channel-card/channel-card';
+import { ChannelData } from '../../../../models/channels.model';
 
 @Component({
   selector: 'app-channel-list',
