@@ -10,5 +10,13 @@ import { Button } from '../button/button';
 })
 export class LinkInput {
   readonly submit = output<string>();
+
   readonly currentValue = signal('');
+  readonly resetKey = signal(0);
+
+  onSubmit(): void {
+    this.submit.emit(this.currentValue());
+    this.currentValue.set('');
+    this.resetKey.update(k => k + 1);
+  }
 }
