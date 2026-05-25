@@ -1,4 +1,9 @@
 <div class="room">
   <app-video-player [videoId]="videoId()" />
   <app-link-input (submit)="onSubmit($event)" />
+  <app-playlist
+    [items]="playlist()"
+    [currentIndex]="currentIndex()"
+    (select)="onSelect($event)"
+  />
 </div>
