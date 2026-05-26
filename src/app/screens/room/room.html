@@ -1,10 +1,10 @@
 <div class="room">
-  <app-video-player [videoId]="videoId()" />
-  <app-link-input (submit)="onSubmit($event)" />
+  <app-video-player [videoId]="playlist.videoId()" />
+  <app-link-input (submit)="playlist.add($event)" />
   <app-playlist
-    [items]="playlist()"
-    [currentIndex]="currentIndex()"
-    (select)="onSelect($event)"
-    (remove)="onRemove($event)"
+    [items]="playlist.playlist()"
+    [currentIndex]="playlist.currentIndex()"
+    (select)="playlist.select($event)"
+    (remove)="playlist.remove($event)"
   />
 </div>
