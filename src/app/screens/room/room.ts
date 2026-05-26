@@ -34,4 +34,15 @@ export class Room {
   onSelect(index: number): void {
     this.currentIndex.set(index);
   }
+
+  onRemove(id: string): void {
+    const index = this.playlist().findIndex(item => item.id === id);
+    this.playlist.update(list => list.filter(item => item.id !== id));
+
+    if (index < this.currentIndex()) {
+      this.currentIndex.update(i => i - 1);
+    } else if (index === this.currentIndex()) {
+      this.currentIndex.set(Math.min(this.currentIndex(), this.playlist().length - 1));
+    }
+  }
 }

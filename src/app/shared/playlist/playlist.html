@@ -11,6 +11,10 @@
     >
       <span class="playlist__index">{{ i + 1 }}</span>
       <span class="playlist__url">{{ item.url }}</span>
+      <button
+        class="playlist__remove"
+        (click)="remove.emit(item.id)"
+      >✕</button>
     </div>
   }
 </div>
