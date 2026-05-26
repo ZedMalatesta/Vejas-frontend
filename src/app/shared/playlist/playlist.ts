@@ -11,4 +11,5 @@ export class Playlist {
   readonly currentIndex = input<number>(0);
 
   readonly select = output<number>();
+  readonly remove = output<string>();
 }
