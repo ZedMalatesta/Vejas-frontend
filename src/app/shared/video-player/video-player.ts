@@ -11,9 +11,10 @@ export class VideoPlayer {
 
   readonly videoId = input.required<string>();
 
-  readonly embedUrl = computed(() =>
-    this.sanitizer.bypassSecurityTrustResourceUrl(
+  readonly embedUrl = computed(() => {
+    console.log('videoId changed:', this.videoId());
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
       `https://www.youtube.com/embed/${this.videoId()}`
-    )
-  );
+    );
+  });
 }
