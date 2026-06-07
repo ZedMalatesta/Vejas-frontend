@@ -7,7 +7,6 @@ import { PlaylistService } from './playlist.service';
 @Component({
   selector: 'app-room',
   imports: [VideoPlayer, LinkInput, Playlist],
-  providers: [PlaylistService],
   templateUrl: './room.html',
   styleUrl: './room.scss',
 })

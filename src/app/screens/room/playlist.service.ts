@@ -1,8 +1,10 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { PlaylistItem } from '../../shared/playlist/playlist-item.model';
-import { extractVideoId } from '../../shared/video-player/extract-video-id';
+import { extractVideoId } from '../../utils/extract-video-id';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PlaylistService {
   readonly playlist = signal<PlaylistItem[]>([]);
   readonly currentIndex = signal<number>(0);
