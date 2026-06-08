@@ -52,6 +52,14 @@ export class AuthService {
     return supabase.auth.updateUser({ password });
   }
 
+  async isAuthenticated(): Promise<boolean> {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    return !!user;
+  }
+
   signOut(): ReturnType<typeof supabase.auth.signOut> {
     return supabase.auth.signOut();
   }
