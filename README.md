@@ -2,6 +2,8 @@
 
 An application that allows users to connect on a platform to synchronize their shared viewing of online content.
 
+**Live:** [https://zedmalatesta.github.io/Vejas-frontend/](https://zedmalatesta.github.io/Vejas-frontend/)
+
 ## Collaborators
 
 - [@ZedMalatesta](https://github.com/ZedMalatesta)
