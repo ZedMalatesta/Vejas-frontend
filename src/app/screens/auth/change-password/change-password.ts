@@ -1,20 +1,20 @@
 import { Component, computed, inject, signal } from '@angular/core';
-
-import { Router } from '@angular/router';
-
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { CanComponentDeactivate } from '../../../core/guards/unsaved-changes-guard';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
+  imports: [RouterLink],
 })
-export class ChangePassword {
-  password = signal('');
-  confirmPassword = signal('');
-  success = signal(false);
+export class ChangePassword implements CanComponentDeactivate {
+  readonly password = signal('');
+  readonly confirmPassword = signal('');
+  readonly success = signal(false);
   errorMessage = '';
-  passwordError = computed(() => {
+  readonly passwordError = computed(() => {
     if (!this.password()) {
       return 'Password is required';
     }
@@ -25,7 +25,8 @@ export class ChangePassword {
 
     return null;
   });
-  confirmPasswordError = computed(() => {
+
+  readonly confirmPasswordError = computed(() => {
     if (!this.confirmPassword()) {
       return 'Please confirm password';
     }
@@ -39,7 +40,20 @@ export class ChangePassword {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  async changePassword() {
+  canDeactivate(): boolean {
+    console.log('canDeactivate called');
+    if (this.success()) {
+      return true;
+    }
+
+    if (this.password() || this.confirmPassword()) {
+      return confirm('You have unsaved changes. Leave page?');
+    }
+
+    return true;
+  }
+
+  async changePassword(): Promise<void> {
     if (this.passwordError() || this.confirmPasswordError()) {
       return;
     }
