@@ -24,6 +24,29 @@
 	line-height: 1.1;
 }
 
+.channel-list__search {
+	width: 100%;
+	// min-width: 40vw;
+	padding: 0.5rem 0.75rem;
+	margin-top: 0.5rem;
+	background: var(--app-surface);
+	border: 1px solid var(--app-border);
+	border-radius: var(--app-radius-md);
+	color: var(--app-text);
+	font-size: 0.9rem;
+	transition: border-color var(--app-transition-fast), box-shadow var(--app-transition-fast);
+
+	&::placeholder {
+		color: var(--app-muted);
+	}
+
+	&:focus {
+		outline: none;
+		border-color: var(--app-accent);
+		box-shadow: var(--app-focus-ring);
+	}
+}
+
 .channel-list__grid {
 	display: grid;
 	gap: 1rem;

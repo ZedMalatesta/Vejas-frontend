@@ -1,17 +1,8 @@
 <div class="home-page">
-  <header aria-label="Temporary header" class="home-page__header">
-    <div class="home-page__brand">
-      Tmp header Vejas
-    </div>
-    <nav aria-label="Main navigation" class="home-page__nav">
-      <a class="home-page__link" href="/">Home</a>
-      <a class="home-page__link" href="auth/login">Login</a>
-      <a class="home-page__link" href="auth/register">Sign up</a>
-    </nav>
-  </header>
+  <app-header />
 
   <main class="home-page__content">
-    <app-channel-list [channelItems]="channels" />
+    <app-channel-list />
   </main>
 
   <footer aria-label="Temporary footer" class="home-page__footer">

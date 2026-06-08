@@ -1,16 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChannelList } from './components/channel-list/channel-list';
-import { CahnnelService } from '../../core/services/channels-service/cahnnel-service';
+import { Header } from '../../shared/header/header';
 
 @Component({
   selector: 'app-home-page',
-  imports: [ChannelList],
+  imports: [ChannelList, Header],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage {
-  private channelService = inject(CahnnelService);
-
-  channels = this.channelService.getChannels();
-}
+export class HomePage {}
