@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 function applyTheme(theme: 'light' | 'dark'): void {
@@ -61,8 +61,12 @@ function initAutoTheme(): void {
 })
 export class App {
   protected readonly title = signal('vejas-frontend');
+  readonly timeOfDay = signal<'light' | 'dark'>(guessThemeFromTime());
 
   constructor() {
+  effect(() => {
+    applyTheme(this.timeOfDay());
+  });
     initAutoTheme();
   }
 }
