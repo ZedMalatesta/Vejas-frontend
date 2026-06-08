@@ -30,7 +30,7 @@ export class Register {
     ],
   });
 
-  async register() {
+  async register(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

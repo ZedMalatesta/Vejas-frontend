@@ -33,7 +33,7 @@ export class Login implements OnInit, OnDestroy {
     ],
   });
 
-  async login() {
+  async login(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -48,19 +48,19 @@ export class Login implements OnInit, OnDestroy {
     );
   }
 
-  loginGoogle() {
+  loginGoogle(): void {
     this.authService.signInWithGoogle();
   }
 
-  loginGithub() {
+  loginGithub(): void {
     this.authService.signInWithGithub();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('Login init');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     console.log('Login destroy');
   }
 }
