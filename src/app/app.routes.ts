@@ -9,7 +9,11 @@ import { unsavedChangesGuard } from './core/guards/unsaved-changes-guard';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
-  { path: 'room', canActivate: [authGuard], loadComponent: () => import('./screens/room/room').then(m => m.Room) },
+  {
+    path: 'room',
+    loadComponent: () => import('./screens/room/room').then((m) => m.Room),
+    canActivate: [authGuard],
+  },
   { path: 'auth/login', component: Login },
   { path: 'auth/register', component: Register },
   {
