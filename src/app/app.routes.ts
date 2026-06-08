@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { Room } from './screens/room/room';
 import { Login } from './screens/auth/login/login';
 import { Register } from './screens/auth/register/register';
 import { HomePage } from './screens/home-page/home-page';
@@ -10,7 +9,11 @@ import { unsavedChangesGuard } from './core/guards/unsaved-changes-guard';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
-  { path: 'room', component: Room, canActivate: [authGuard] },
+  {
+    path: 'room',
+    loadComponent: () => import('./screens/room/room').then((m) => m.Room),
+    canActivate: [authGuard],
+  },
   { path: 'auth/login', component: Login },
   { path: 'auth/register', component: Register },
   {
