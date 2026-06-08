@@ -1,8 +1,8 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {AuthService} from "../../../core/services/auth.service";
-import {FormBuilder, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {RouterLink} from "@angular/router";
-import {AuthButton} from '../../../shared/ui/auth-button/auth-button';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { AuthService } from '../../../core/services/auth.service';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AuthButton } from '../../../shared/ui/auth-button/auth-button';
 
 @Component({
   selector: 'app-login',
@@ -13,25 +13,14 @@ import {AuthButton} from '../../../shared/ui/auth-button/auth-button';
 })
 export class Login implements OnInit, OnDestroy {
   authService = inject(AuthService);
+  errorMessage = '';
   private fb = inject(FormBuilder);
-
   form = this.fb.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email,
-      ],
-    ],
+    email: ['', [Validators.required, Validators.email]],
 
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-      ],
-    ],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
+  private router: any;
 
   async login() {
     if (this.form.invalid) {
@@ -42,10 +31,14 @@ export class Login implements OnInit, OnDestroy {
     const email = this.form.value.email!;
     const password = this.form.value.password!;
 
-    await this.authService.signIn(
-      email,
-      password
-    );
+    const { error } = await this.authService.signIn(email, password);
+
+    if (error) {
+      this.errorMessage = error.message;
+      return;
+    }
+
+    await this.router.navigate(['/']);
   }
 
   loginGoogle() {

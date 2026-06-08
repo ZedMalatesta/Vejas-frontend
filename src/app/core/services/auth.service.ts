@@ -35,16 +35,32 @@ export class AuthService {
     });
   }
 
-  signUp(email: string, password: string) {
-    return supabase.auth.signUp({
+  async signUp(email: string, password: string) {
+    const result = await supabase.auth.signUp({
       email,
       password,
     });
+
+    console.log(result);
+
+    return result;
   }
 
   signIn(email: string, password: string) {
     return supabase.auth.signInWithPassword({
       email,
+      password,
+    });
+  }
+
+  async resetPassword(email: string) {
+    return supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'http://localhost:4200/auth/change-password',
+    });
+  }
+
+  async updatePassword(password: string) {
+    return supabase.auth.updateUser({
       password,
     });
   }

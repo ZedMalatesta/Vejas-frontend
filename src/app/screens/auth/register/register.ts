@@ -1,6 +1,9 @@
-import {Component, inject} from '@angular/core';
-import {AuthService} from "../../../core/services/auth.service";
-import {FormBuilder, ReactiveFormsModule, Validators,} from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -10,25 +13,14 @@ import {FormBuilder, ReactiveFormsModule, Validators,} from '@angular/forms';
 })
 export class Register {
   authService = inject(AuthService);
+  errorMessage = '';
   private fb = inject(FormBuilder);
-  
   form = this.fb.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email,
-      ],
-    ],
+    email: ['', [Validators.required, Validators.email]],
 
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-      ],
-    ],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
+  private router = inject(Router);
 
   async register() {
     if (this.form.invalid) {
@@ -39,9 +31,13 @@ export class Register {
     const email = this.form.value.email!;
     const password = this.form.value.password!;
 
-    await this.authService.signUp(
-      email,
-      password
-    );
+    const { error } = await this.authService.signUp(email, password);
+
+    if (error) {
+      this.errorMessage = error.message;
+      return;
+    }
+
+    await this.router.navigate(['/']);
   }
 }
