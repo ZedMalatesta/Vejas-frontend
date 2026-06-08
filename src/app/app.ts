@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-function applyTheme(theme: 'light' | 'dark') {
+function applyTheme(theme: 'light' | 'dark'): void {
   try {
     document.documentElement.setAttribute('data-theme', theme);
   } catch {
@@ -18,7 +18,7 @@ function guessThemeFromTime(): 'light' | 'dark' {
   }
 }
 
-function initAutoTheme() {
+function initAutoTheme(): void {
   if (typeof window === 'undefined') return;
 
   const mqlSupported = typeof window.matchMedia === 'function';
@@ -42,8 +42,7 @@ function initAutoTheme() {
     } catch {
       // older browsers
       try {
-        // @ts-ignore
-        mq.addListener((ev: any) => applyTheme(ev.matches ? 'dark' : 'light'));
+        mq.addListener((ev: MediaQueryListEvent) => applyTheme(ev.matches ? 'dark' : 'light'));
       } catch {
         /* ignore */
       }

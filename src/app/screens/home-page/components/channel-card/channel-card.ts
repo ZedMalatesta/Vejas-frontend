@@ -11,9 +11,9 @@ export class ChannelCard {
   readonly channel = input.required<ChannelData>();
   viewersPipe = new ViewersPipe();
 
-  name = computed(() => this.channel().name);
-  description = computed(() => this.channel().description);
-  coverUrl = computed(() => this.channel().coverUrl);
-  category = computed(() => this.channel().category);
-  viewers = computed(() =>  this.viewersPipe.transform(this.channel().viewers));
+  readonly name = computed(() => this.channel().name);
+  readonly description = computed(() => this.channel().description);
+  readonly coverUrl = computed(() => this.channel().coverUrl);
+  readonly category = computed(() => this.channel().category);
+  readonly viewers = computed(() => this.viewersPipe.transform(this.channel().viewers));
 }
