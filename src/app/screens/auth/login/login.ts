@@ -22,7 +22,7 @@ export class Login implements OnInit, OnDestroy {
   });
   private router: any;
 
-  async login() {
+  async login(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -41,19 +41,19 @@ export class Login implements OnInit, OnDestroy {
     await this.router.navigate(['/']);
   }
 
-  loginGoogle() {
+  loginGoogle(): void {
     this.authService.signInWithGoogle();
   }
 
-  loginGithub() {
+  loginGithub(): void {
     this.authService.signInWithGithub();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('Login init');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     console.log('Login destroy');
   }
 }
