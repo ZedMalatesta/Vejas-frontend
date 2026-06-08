@@ -2,66 +2,70 @@
 
 <form [formGroup]="form">
 
-    <input
-            formControlName="email"
-            placeholder="Email"
-            type="email"
-    />
+  <input
+    formControlName="email"
+    placeholder="Email"
+    type="email"
+  />
 
-    @if (form.controls.email.touched &&
-    form.controls.email.invalid) {
+  @if (form.controls.email.touched &&
+  form.controls.email.invalid) {
 
-        @if (form.controls.email.errors?.['required']) {
-            <p>Email required</p>
-        }
-
-        @if (form.controls.email.errors?.['email']) {
-            <p>Invalid email</p>
-        }
-
+    @if (form.controls.email.errors?.['required']) {
+      <p>Email required</p>
     }
 
-    <input
-            formControlName="password"
-            placeholder="Password"
-            type="password"
-    />
-
-    @if (form.controls.password.touched &&
-    form.controls.password.invalid) {
-
-        @if (form.controls.password.errors?.['required']) {
-            <p>Password required</p>
-        }
-
-        @if (form.controls.password.errors?.['minlength']) {
-            <p>Minimum 6 characters</p>
-        }
-
+    @if (form.controls.email.errors?.['email']) {
+      <p>Invalid email</p>
     }
 
-    <button (click)="login()" type="button">
-        Login
-    </button>
+  }
 
-    <hr/>
+  <input
+    formControlName="password"
+    placeholder="Password"
+    type="password"
+  />
 
-    <app-auth-button
-            (clicked)="loginGoogle()"
-            [text]="'Continue with Google'"
-    />
+  @if (form.controls.password.touched &&
+  form.controls.password.invalid) {
 
-    <app-auth-button
-            (clicked)="loginGithub()"
-            [text]="'Continue with GitHub'"
-    />
+    @if (form.controls.password.errors?.['required']) {
+      <p>Password required</p>
+    }
 
-    <hr/>
+    @if (form.controls.password.errors?.['minlength']) {
+      <p>Minimum 6 characters</p>
+    }
 
-    <p>Don't have an account?</p>
+  }
 
-    <a routerLink="/register">
-        Sign up
-    </a>
+  <button (click)="login()" type="button">
+    Login
+  </button>
+
+  <hr />
+
+  <app-auth-button
+    (clicked)="loginGoogle()"
+    [text]="'Continue with Google'"
+  />
+
+  <app-auth-button
+    (clicked)="loginGithub()"
+    [text]="'Continue with GitHub'"
+  />
+
+  <hr />
+
+  <p>Don't have an account?</p>
+
+  <a routerLink="/auth/register">
+    Sign up
+  </a>
+
+  <a routerLink="/auth/forgot-password">
+    Forgot password?
+  </a>
 
 </form>

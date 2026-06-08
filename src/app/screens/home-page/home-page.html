@@ -1,21 +1,21 @@
 <div class="home-page">
-	<header class="home-page__header" aria-label="Temporary header">
-		<div class="home-page__brand">
-			Tmp header Vejas
-		</div>
-		<nav class="home-page__nav" aria-label="Main navigation">
-			<a href="/" class="home-page__link">Home</a>
-			<a href="/login" class="home-page__link">Login</a>
-			<a href="/register" class="home-page__link">Sign up</a>
-		</nav>
-	</header>
+  <header aria-label="Temporary header" class="home-page__header">
+    <div class="home-page__brand">
+      Tmp header Vejas
+    </div>
+    <nav aria-label="Main navigation" class="home-page__nav">
+      <a class="home-page__link" href="/">Home</a>
+      <a class="home-page__link" href="auth/login">Login</a>
+      <a class="home-page__link" href="auth/register">Sign up</a>
+    </nav>
+  </header>
 
-	<main class="home-page__content">
-		<app-channel-list [channelItems]="channels" />
-	</main>
+  <main class="home-page__content">
+    <app-channel-list [channelItems]="channels" />
+  </main>
 
-	<footer class="home-page__footer" aria-label="Temporary footer">
-		<p class="home-page__footer-text">Temporary footer. Replace with real links later.</p>
-	</footer>
+  <footer aria-label="Temporary footer" class="home-page__footer">
+    <p class="home-page__footer-text">Temporary footer. Replace with real links later.</p>
+  </footer>
 </div>
 
