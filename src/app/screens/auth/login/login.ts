@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthButton } from '../../../shared/ui/auth-button/auth-button';
 
 @Component({
@@ -20,7 +20,7 @@ export class Login implements OnInit, OnDestroy {
 
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
-  private router: any;
+  private router = inject(Router);
 
   async login(): Promise<void> {
     if (this.form.invalid) {
