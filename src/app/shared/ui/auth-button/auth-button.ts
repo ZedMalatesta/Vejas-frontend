@@ -7,11 +7,11 @@ import {Component, input, output} from '@angular/core';
   styleUrl: './auth-button.scss',
 })
 export class AuthButton {
-  text = input.required<string>();
+  readonly text = input.required<string>();
 
-  clicked = output<void>();
+  readonly clicked = output<void>();
 
-  onClick() {
+  onClick(): void {
     this.clicked.emit();
   }
 }

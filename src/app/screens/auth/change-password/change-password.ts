@@ -10,11 +10,11 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './change-password.scss',
 })
 export class ChangePassword {
-  password = signal('');
-  confirmPassword = signal('');
-  success = signal(false);
+  readonly password = signal('');
+  readonly confirmPassword = signal('');
+  readonly success = signal(false);
   errorMessage = '';
-  passwordError = computed(() => {
+  readonly passwordError = computed(() => {
     if (!this.password()) {
       return 'Password is required';
     }
@@ -25,7 +25,7 @@ export class ChangePassword {
 
     return null;
   });
-  confirmPasswordError = computed(() => {
+  readonly confirmPasswordError = computed(() => {
     if (!this.confirmPassword()) {
       return 'Please confirm password';
     }
@@ -39,7 +39,7 @@ export class ChangePassword {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  async changePassword() {
+  async changePassword(): Promise<void> {
     if (this.passwordError() || this.confirmPasswordError()) {
       return;
     }

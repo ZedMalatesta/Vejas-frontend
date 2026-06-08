@@ -9,12 +9,12 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './forgot-password.scss',
 })
 export class ForgotPassword {
-  email = signal('');
-  success = signal(false);
+  readonly email = signal('');
+  readonly success = signal(false);
   errorMessage = '';
   private authService = inject(AuthService);
 
-  async resetPassword() {
+  async resetPassword(): Promise<void> {
     const { error } = await this.authService.resetPassword(this.email());
 
     if (error) {

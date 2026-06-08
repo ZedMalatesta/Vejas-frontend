@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthButton } from '../../../shared/ui/auth-button/auth-button';
 
 @Component({
@@ -20,9 +20,9 @@ export class Login implements OnInit, OnDestroy {
 
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
-  private router: any;
+  private router = inject(Router);
 
-  async login() {
+  async login(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -41,19 +41,19 @@ export class Login implements OnInit, OnDestroy {
     await this.router.navigate(['/']);
   }
 
-  loginGoogle() {
+  loginGoogle(): void {
     this.authService.signInWithGoogle();
   }
 
-  loginGithub() {
+  loginGithub(): void {
     this.authService.signInWithGithub();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('Login init');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     console.log('Login destroy');
   }
 }
