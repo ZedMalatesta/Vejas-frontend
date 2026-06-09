@@ -9,7 +9,7 @@ import { AuthButton } from '../../../shared/ui/auth-button/auth-button';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, AuthButton],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
+  styleUrl: '../shared/auth.scss',
 })
 export class Login implements OnInit, OnDestroy {
   authService = inject(AuthService);

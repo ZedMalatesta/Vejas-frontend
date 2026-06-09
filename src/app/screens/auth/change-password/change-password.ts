@@ -6,7 +6,7 @@ import { CanComponentDeactivate } from '../../../core/guards/unsaved-changes-gua
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.html',
-  styleUrl: './change-password.scss',
+  styleUrl: '../shared/auth.scss',
   imports: [RouterLink],
 })
 export class ChangePassword implements CanComponentDeactivate {

@@ -1,71 +1,111 @@
-<h1>Login</h1>
+<div class="auth">
+  <form
+    [formGroup]="form"
+    class="auth__card"
+  >
 
-<form [formGroup]="form">
+    <h1 class="auth__title">
+      Login
+    </h1>
 
-  <input
-    formControlName="email"
-    placeholder="Email"
-    type="email"
-  />
+    <p class="auth__subtitle">
+      Sign in to your account
+    </p>
 
-  @if (form.controls.email.touched &&
-  form.controls.email.invalid) {
+    <div class="auth__field">
 
-    @if (form.controls.email.errors?.['required']) {
-      <p>Email required</p>
-    }
+      <input
+        class="auth__input"
+        formControlName="email"
+        placeholder="Email"
+        type="email"
+      />
 
-    @if (form.controls.email.errors?.['email']) {
-      <p>Invalid email</p>
-    }
+      <div class="auth__error">
+        @if (form.controls.email.touched) {
 
-  }
+          @if (form.controls.email.errors?.['required']) {
+            <span>Email is required</span>
+          }
 
-  <input
-    formControlName="password"
-    placeholder="Password"
-    type="password"
-  />
+          @if (form.controls.email.errors?.['email']) {
+            <span>Invalid email address</span>
+          }
 
-  @if (form.controls.password.touched &&
-  form.controls.password.invalid) {
+        }
+      </div>
 
-    @if (form.controls.password.errors?.['required']) {
-      <p>Password required</p>
-    }
+    </div>
 
-    @if (form.controls.password.errors?.['minlength']) {
-      <p>Minimum 6 characters</p>
-    }
+    <div class="auth__field">
 
-  }
+      <input
+        class="auth__input"
+        formControlName="password"
+        placeholder="Password"
+        type="password"
+      />
 
-  <button (click)="login()" type="button">
-    Login
-  </button>
+      <div class="auth__error">
+        @if (form.controls.password.touched) {
 
-  <hr />
+          @if (form.controls.password.errors?.['required']) {
+            <span>Password is required</span>
+          }
 
-  <app-auth-button
-    (clicked)="loginGoogle()"
-    [text]="'Continue with Google'"
-  />
+          @if (form.controls.password.errors?.['minlength']) {
+            <span>Minimum 6 characters</span>
+          }
 
-  <app-auth-button
-    (clicked)="loginGithub()"
-    [text]="'Continue with GitHub'"
-  />
+        }
+      </div>
 
-  <hr />
+    </div>
 
-  <p>Don't have an account?</p>
+    <button
+      (click)="login()"
+      [disabled]="form.invalid"
+      class="auth__submit"
+      type="button"
+    >
+      Sign in
+    </button>
 
-  <a routerLink="/auth/register">
-    Sign up
-  </a>
+    <hr class="auth__divider">
 
-  <a routerLink="/auth/forgot-password">
-    Forgot password?
-  </a>
+    <div class="auth__providers">
 
-</form>
+      <app-auth-button
+        (clicked)="loginGoogle()"
+        icon="icons/google.svg"
+        text="Continue with Google"
+      />
+
+      <app-auth-button
+        (clicked)="loginGithub()"
+        icon="icons/github.svg"
+        text="Continue with GitHub"
+      />
+
+    </div>
+
+    <div class="auth__links">
+
+      <a
+        class="auth__link"
+        routerLink="/auth/register"
+      >
+        Sign up
+      </a>
+
+      <a
+        class="auth__link"
+        routerLink="/auth/forgot-password"
+      >
+        Forgot password?
+      </a>
+
+    </div>
+
+  </form>
+</div>

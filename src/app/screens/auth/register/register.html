@@ -1,47 +1,90 @@
-<h1>Register</h1>
+<div class="auth">
+  <form
+    [formGroup]="form"
+    class="auth__card"
+  >
 
-<form [formGroup]="form">
+    <h1 class="auth__title">
+      Register
+    </h1>
 
-    <input
-            formControlName="email"
-            placeholder="Email"
-            type="email"
-    />
+    <p class="auth__subtitle">
+      Create your account
+    </p>
 
-    @if (form.controls.email.touched &&
-    form.controls.email.invalid) {
+    <div class="auth__field">
 
-        @if (form.controls.email.errors?.['required']) {
-            <p>Email required</p>
+      <input
+        class="auth__input"
+        formControlName="email"
+        placeholder="Email"
+        type="email"
+      />
+
+      <div class="auth__error">
+        @if (form.controls.email.touched) {
+
+          @if (form.controls.email.errors?.['required']) {
+            <span>Email is required</span>
+          }
+
+          @if (form.controls.email.errors?.['email']) {
+            <span>Invalid email address</span>
+          }
+
         }
+      </div>
 
-        @if (form.controls.email.errors?.['email']) {
-            <p>Invalid email</p>
+    </div>
+
+    <div class="auth__field">
+
+      <input
+        class="auth__input"
+        formControlName="password"
+        placeholder="Password"
+        type="password"
+      />
+
+      <div class="auth__error">
+        @if (form.controls.password.touched) {
+
+          @if (form.controls.password.errors?.['required']) {
+            <span>Password is required</span>
+          }
+
+          @if (form.controls.password.errors?.['minlength']) {
+            <span>Minimum 6 characters</span>
+          }
+
         }
+      </div>
 
-    }
+    </div>
 
-    <input
-            formControlName="password"
-            placeholder="Password"
-            type="password"
-    />
-
-    @if (form.controls.password.touched &&
-    form.controls.password.invalid) {
-
-        @if (form.controls.password.errors?.['required']) {
-            <p>Password required</p>
-        }
-
-        @if (form.controls.password.errors?.['minlength']) {
-            <p>Minimum 6 characters</p>
-        }
-
-    }
-
-    <button (click)="register()">
-        Register
+    <button
+      (click)="register()"
+      [disabled]="form.invalid"
+      class="auth__submit"
+      type="button"
+    >
+      Create account
     </button>
 
-</form>
+    <div class="auth__links">
+
+      <span class="auth__text">
+        Already have an account?
+      </span>
+
+      <a
+        class="auth__link"
+        routerLink="/auth/login"
+      >
+        Sign in
+      </a>
+
+    </div>
+
+  </form>
+</div>
