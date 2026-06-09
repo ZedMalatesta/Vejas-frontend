@@ -1,14 +1,19 @@
 import { Routes } from '@angular/router';
-import { Room } from './screens/room/room';
 import { Login } from './screens/auth/login/login';
 import { Register } from './screens/auth/register/register';
 import { HomePage } from './screens/home-page/home-page';
 import { ForgotPassword } from './screens/auth/forgot-password/forgot-password';
 import { ChangePassword } from './screens/auth/change-password/change-password';
+import { authGuard } from './core/guards/auth-guard';
+import { unsavedChangesGuard } from './core/guards/unsaved-changes-guard';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
-  { path: 'room', component: Room },
+  {
+    path: 'room',
+    loadComponent: () => import('./screens/room/room').then((m) => m.Room),
+    canActivate: [authGuard],
+  },
   { path: 'auth/login', component: Login },
   { path: 'auth/register', component: Register },
   {
@@ -18,6 +23,7 @@ export const routes: Routes = [
   {
     path: 'auth/change-password',
     component: ChangePassword,
+    canDeactivate: [unsavedChangesGuard],
   },
   { path: '**', redirectTo: '' },
 ];

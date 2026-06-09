@@ -1,6 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ChannelCard } from '../channel-card/channel-card';
-import { ChannelData } from '../../../../models/channels.model';
+import { CahnnelService } from '../../../../core/services/channels-service/cahnnel-service';
 
 @Component({
   selector: 'app-channel-list',
@@ -9,5 +9,11 @@ import { ChannelData } from '../../../../models/channels.model';
   styleUrl: './channel-list.scss',
 })
 export class ChannelList {
-  public readonly channelItems = input.required<ChannelData[]>();
+  private readonly channelService = inject(CahnnelService);
+
+  readonly channels = this.channelService.filteredChannels;
+
+  setQuery(value: string): void {
+    this.channelService.setSearchQuery(value);
+  }
 }

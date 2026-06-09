@@ -1,20 +1,21 @@
 import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './forgot-password.html',
-  styleUrl: './forgot-password.scss',
+  styleUrl: '../shared/auth.scss',
 })
 export class ForgotPassword {
-  email = signal('');
-  success = signal(false);
+  readonly email = signal('');
+  readonly success = signal(false);
   errorMessage = '';
   private authService = inject(AuthService);
 
-  async resetPassword() {
+  async resetPassword(): Promise<void> {
     const { error } = await this.authService.resetPassword(this.email());
 
     if (error) {

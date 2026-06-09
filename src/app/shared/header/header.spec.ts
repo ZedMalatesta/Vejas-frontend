@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangePassword } from './change-password';
-import { RouterLink } from '@angular/router';
+import { Header } from './header';
 
-describe('ChangePassword', () => {
-  let component: ChangePassword;
-  let fixture: ComponentFixture<ChangePassword>;
+describe('Header', () => {
+  let component: Header;
+  let fixture: ComponentFixture<Header>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangePassword, RouterLink],
+      imports: [Header],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ChangePassword);
+    fixture = TestBed.createComponent(Header);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
