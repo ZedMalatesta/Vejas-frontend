@@ -2,7 +2,5 @@
   class="text-input"
   type="text"
   [placeholder]="placeholder()"
-  [value]="value()"
-  (input)="onInput($event)"
-  (keydown)="onKeydown($event)"
+  [formControl]="control()"
 />
