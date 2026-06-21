@@ -6,6 +6,8 @@
   @for (item of items(); track item.id; let i = $index) {
     <div
       class="playlist__item"
+      appScrollIntoView
+      [isActive]="i === currentIndex()"
       [class.playlist__item--active]="i === currentIndex()"
       (click)="select.emit(i)"
     >

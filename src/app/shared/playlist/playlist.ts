@@ -1,8 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { PlaylistItem } from './playlist-item.model';
+import { ScrollIntoViewDirective } from './scroll-into-view.directive';
 
 @Component({
   selector: 'app-playlist',
+  imports: [ScrollIntoViewDirective],
   templateUrl: './playlist.html',
   styleUrl: './playlist.scss',
 })
