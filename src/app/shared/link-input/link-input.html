@@ -1,9 +1,7 @@
-<div class="link-input">
+<form class="link-input" [formGroup]="form" (ngSubmit)="onSubmit()">
   <app-text-input
     placeholder="Paste YouTube link..."
-    [resetKey]="resetKey()"
-    (valueChange)="currentValue.set($event)"
-    (submit)="onSubmit()"
+    [control]="form.controls.url"
   />
   <app-button label="Add link" (clicked)="onSubmit()" />
-</div>
+</form>

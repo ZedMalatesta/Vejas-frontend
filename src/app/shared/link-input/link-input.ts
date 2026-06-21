@@ -1,22 +1,31 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TextInput } from '../text-input/text-input';
 import { Button } from '../button/button';
+import { extractVideoId } from '../../utils/extract-video-id';
+
+function youtubeUrlValidator(control: AbstractControl): ValidationErrors | null {
+  if (!control.value) return null;
+  return extractVideoId(control.value) ? null : { invalidYoutubeUrl: true };
+}
 
 @Component({
   selector: 'app-link-input',
-  imports: [TextInput, Button],
+  imports: [TextInput, Button, ReactiveFormsModule],
   templateUrl: './link-input.html',
   styleUrl: './link-input.scss',
 })
 export class LinkInput {
   readonly submit = output<string>();
 
-  readonly currentValue = signal('');
-  readonly resetKey = signal(0);
+  readonly form = new FormGroup({
+    url: new FormControl('', [Validators.required, youtubeUrlValidator]),
+  });
 
   onSubmit(): void {
-    this.submit.emit(this.currentValue());
-    this.currentValue.set('');
-    this.resetKey.update(k => k + 1);
+    if (this.form.invalid) return;
+    const url = this.form.value.url!.trim();
+    this.submit.emit(url);
+    this.form.reset({ url: '' });
   }
 }
