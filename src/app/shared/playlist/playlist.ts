@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { PlaylistItem } from './playlist-item.model';
 import { ScrollIntoViewDirective } from './scroll-into-view.directive';
 
@@ -7,6 +7,7 @@ import { ScrollIntoViewDirective } from './scroll-into-view.directive';
   imports: [ScrollIntoViewDirective],
   templateUrl: './playlist.html',
   styleUrl: './playlist.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Playlist {
   readonly items = input<PlaylistItem[]>([]);
