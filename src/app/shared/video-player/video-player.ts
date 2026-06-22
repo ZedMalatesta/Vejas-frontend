@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { YOUTUBE_PLAYER_CONFIG } from './youtube-player-config.token';
 
@@ -6,6 +6,7 @@ import { YOUTUBE_PLAYER_CONFIG } from './youtube-player-config.token';
   selector: 'app-video-player',
   templateUrl: './video-player.html',
   styleUrl: './video-player.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayer {
   private readonly sanitizer = inject(DomSanitizer);
