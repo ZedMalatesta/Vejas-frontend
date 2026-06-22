@@ -1,8 +1,8 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { AuthButton } from '../../../shared/ui/auth-button/auth-button';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {AuthService} from '../../../core/services/auth.service';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
+import {AuthButton} from '../../../shared/ui/auth-button/auth-button';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +10,7 @@ import { AuthButton } from '../../../shared/ui/auth-button/auth-button';
   imports: [ReactiveFormsModule, RouterLink, AuthButton],
   templateUrl: './login.html',
   styleUrl: '../shared/auth.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login implements OnInit, OnDestroy {
   authService = inject(AuthService);
@@ -31,7 +32,7 @@ export class Login implements OnInit, OnDestroy {
     const email = this.form.value.email!;
     const password = this.form.value.password!;
 
-    const { error } = await this.authService.signIn(email, password);
+    const {error} = await this.authService.signIn(email, password);
 
     if (error) {
       this.errorMessage = error.message;

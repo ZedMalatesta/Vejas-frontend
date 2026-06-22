@@ -1,13 +1,14 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
-import { CanComponentDeactivate } from '../../../core/guards/unsaved-changes-guard';
+import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
+import {Router, RouterLink} from '@angular/router';
+import {AuthService} from '../../../core/services/auth.service';
+import {CanComponentDeactivate} from '../../../core/guards/unsaved-changes-guard';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.html',
   styleUrl: '../shared/auth.scss',
   imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePassword implements CanComponentDeactivate {
   readonly password = signal('');
@@ -58,7 +59,7 @@ export class ChangePassword implements CanComponentDeactivate {
       return;
     }
 
-    const { error } = await this.authService.updatePassword(this.password());
+    const {error} = await this.authService.updatePassword(this.password());
 
     if (error) {
       this.errorMessage = error.message;

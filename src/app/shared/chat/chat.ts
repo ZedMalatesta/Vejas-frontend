@@ -1,8 +1,17 @@
-import { DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, ViewChild } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service';
-import { ChatService } from '../../screens/room/chat.service';
+import {DatePipe} from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AuthService} from '../../core/services/auth.service';
+import {ChatService} from '../../screens/room/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -12,19 +21,16 @@ import { ChatService } from '../../screens/room/chat.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Chat implements AfterViewInit {
+  readonly messageControl = new FormControl('', [Validators.required]);
   private readonly chatService = inject(ChatService);
-  private readonly authService = inject(AuthService);
-
-  @ViewChild('messageList') private messageList!: ElementRef<HTMLElement>;
-
   readonly messages = this.chatService.messages;
-
+  private readonly authService = inject(AuthService);
   readonly author = computed(() => {
     const user = this.authService.user();
     return user?.user_metadata?.['full_name'] ?? user?.email ?? 'Guest';
   });
-
-  readonly messageControl = new FormControl('', [Validators.required]);
+  private readonly messageList =
+    viewChild<ElementRef<HTMLElement>>('messageList');
 
   constructor() {
     effect(() => {
@@ -45,8 +51,11 @@ export class Chat implements AfterViewInit {
 
   private scrollToBottom(): void {
     setTimeout(() => {
-      if (this.messageList) {
-        this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
+      const messageList = this.messageList();
+
+      if (messageList) {
+        messageList.nativeElement.scrollTop =
+          messageList.nativeElement.scrollHeight;
       }
     });
   }
