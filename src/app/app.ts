@@ -1,72 +1,16 @@
-import { Component, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
-function applyTheme(theme: 'light' | 'dark'): void {
-  try {
-    document.documentElement.setAttribute('data-theme', theme);
-  } catch {
-    /* ignore when DOM not available */
-  }
-}
-
-function guessThemeFromTime(): 'light' | 'dark' {
-  try {
-    const h = new Date().getHours();
-    return h >= 7 && h < 19 ? 'light' : 'dark';
-  } catch {
-    return 'dark';
-  }
-}
-
-function initAutoTheme(): void {
-  if (typeof window === 'undefined') return;
-
-  const mqlSupported = typeof window.matchMedia === 'function';
-
-  if (mqlSupported) {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    // If the system reports a preference, use it
-    if (mq.matches) {
-      applyTheme('dark');
-    } else if (mq.media) {
-      applyTheme('light');
-    } else {
-      applyTheme(guessThemeFromTime());
-    }
-
-    // Keep in sync when system preference changes
-    try {
-      mq.addEventListener('change', (ev: MediaQueryListEvent) => {
-        applyTheme(ev.matches ? 'dark' : 'light');
-      });
-    } catch {
-      // older browsers
-      try {
-        mq.addListener((ev: MediaQueryListEvent) => applyTheme(ev.matches ? 'dark' : 'light'));
-      } catch {
-        /* ignore */
-      }
-    }
-  } else {
-    // fallback to time-of-day
-    applyTheme(guessThemeFromTime());
-  }
-}
+import { ThemeService } from './core/services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   protected readonly title = signal('vejas-frontend');
-  readonly timeOfDay = signal<'light' | 'dark'>(guessThemeFromTime());
-
-  constructor() {
-  effect(() => {
-    applyTheme(this.timeOfDay());
-  });
-    initAutoTheme();
-  }
+  // Injecting the service
+  private readonly theme = inject(ThemeService);
 }
