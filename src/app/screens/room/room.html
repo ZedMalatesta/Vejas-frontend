@@ -1,11 +1,13 @@
 <div class="room">
-  <app-video-player [videoId]="playlist.videoId()" />
-  <app-link-input (submit)="playlist.add($event)" />
-  <app-playlist
-    [items]="playlist.playlist()"
-    [currentIndex]="playlist.currentIndex()"
-    (select)="playlist.select($event)"
-    (remove)="playlist.remove($event)"
-  />
-  <app-chat />
+  <div class="room__main">
+    <app-video-player [videoId]="playlist.videoId()" />
+    <app-link-input (submit)="playlist.add($event)" />
+    <app-playlist
+      [items]="playlist.playlist()"
+      [currentIndex]="playlist.currentIndex()"
+      (select)="playlist.select($event)"
+      (remove)="playlist.remove($event)"
+    />
+  </div>
+  <app-chat class="room__chat" />
 </div>
