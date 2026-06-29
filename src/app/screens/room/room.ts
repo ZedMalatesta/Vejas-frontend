@@ -9,7 +9,7 @@ import { PlaylistService } from './playlist.service';
   selector: 'app-room',
   imports: [VideoPlayer, LinkInput, Playlist, Chat],
   templateUrl: './room.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './room.scss',
 })
 export class Room {
