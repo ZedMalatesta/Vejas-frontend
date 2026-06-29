@@ -5,7 +5,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   selector: 'app-text-input',
   imports: [ReactiveFormsModule],
   templateUrl: './text-input.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './text-input.scss',
 })
 export class TextInput {
