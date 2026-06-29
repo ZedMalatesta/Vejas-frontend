@@ -20,7 +20,7 @@ function youtubeUrlValidator(control: AbstractControl): ValidationErrors | null 
   selector: 'app-link-input',
   imports: [TextInput, Button, ReactiveFormsModule],
   templateUrl: './link-input.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './link-input.scss',
 })
 export class LinkInput {
