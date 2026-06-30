@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-
-const SOCKET_URL = 'http://localhost:3000';
+import { environment } from '../../../environments/environment';
 
 // TODO: replace with a real per-room id once room routing exists.
 const DEFAULT_ROOM_ID = 'demo-room';
@@ -10,7 +9,7 @@ const DEFAULT_ROOM_ID = 'demo-room';
   providedIn: 'root',
 })
 export class SocketService {
-  private readonly socket: Socket = io(SOCKET_URL);
+  private readonly socket: Socket = io(environment.socketUrl);
   private readonly roomId = DEFAULT_ROOM_ID;
 
   constructor() {
