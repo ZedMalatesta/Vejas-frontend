@@ -19,6 +19,7 @@
     "@angular/forms": "^22.0.4",
     "@angular/platform-browser": "^22.0.4",
     "@angular/router": "^22.0.4",
+    "@angular/youtube-player": "^22.0.2",
     "@supabase/supabase-js": "^2.106.0",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.3",
