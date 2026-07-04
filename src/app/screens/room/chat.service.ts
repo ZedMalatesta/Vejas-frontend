@@ -1,6 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ChatMessage } from '../../shared/chat/chat-message.model';
 import { SocketService } from '../../core/services/socket.service';
+import { RoomApiService } from '../../core/services/room-api.service';
+
+const ROOM_ID = 'demo-room';
 
 interface ChatMessagePayload {
   id: string;
@@ -17,6 +20,7 @@ const toChatMessage = (payload: ChatMessagePayload): ChatMessage => ({
 @Injectable({ providedIn: 'root' })
 export class ChatService {
   private readonly socket = inject(SocketService);
+  private readonly roomApi = inject(RoomApiService);
 
   readonly messages = signal<ChatMessage[]>([]);
 
@@ -30,9 +34,13 @@ export class ChatService {
     });
   }
 
+  applySnapshot(messages: ChatMessagePayload[]): void {
+    this.messages.set(messages.map(toChatMessage));
+  }
+
   send(text: string, author: string): void {
     const trimmed = text.trim();
     if (!trimmed) return;
-    this.socket.emit('chatMessage', { author, text: trimmed });
+    this.roomApi.postMessage(ROOM_ID, author, trimmed).subscribe();
   }
 }
