@@ -31,6 +31,11 @@ export class PlaylistService {
     this.socket.on<PlaylistStatePayload>('playlistUpdate', applyState);
   }
 
+  applySnapshot(playlist: PlaylistItem[], currentIndex: number): void {
+    this.playlist.set(playlist);
+    this.currentIndex.set(currentIndex);
+  }
+
   add(url: string): void {
     const videoId = extractVideoId(url);
     if (!videoId) return;
