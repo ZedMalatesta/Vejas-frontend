@@ -76,4 +76,8 @@ export class RoomGateway {
     const state = this.roomState.removePlaylistItem(roomId, id);
     this.server.to(roomId).emit('playlistUpdate', state);
   }
+
+  broadcastChatMessage(roomId: string, message: unknown): void {
+    this.server.to(roomId).emit('chatMessage', message);
+  }
 }
