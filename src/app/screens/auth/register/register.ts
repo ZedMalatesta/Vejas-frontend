@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {AuthService} from '../../../core/services/auth.service';
@@ -12,7 +12,8 @@ import {AuthService} from '../../../core/services/auth.service';
 })
 export class Register {
   authService = inject(AuthService);
-  errorMessage = '';
+  readonly errorMessage = signal('');
+  readonly successMessage = signal('');
   private fb = inject(FormBuilder);
   form = this.fb.group({
     username: [
@@ -41,10 +42,10 @@ export class Register {
     const {error} = await this.authService.signUp(email, password);
 
     if (error) {
-      this.errorMessage = error.message;
+      this.errorMessage.set(error.message);
       return;
     }
 
-    await this.router.navigate(['/']);
+    this.successMessage.set('Account created! Check your email to confirm before signing in.');
   }
 }
