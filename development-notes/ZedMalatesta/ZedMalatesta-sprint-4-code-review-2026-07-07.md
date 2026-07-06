@@ -1,55 +1,39 @@
 # Sprint 4: Code Review — Studying Teammate's Supabase Auth Code — 2026-07-07
 
-> Option B diary: studying another team member's code.
+> Option B: diary about studying another team member's code.
 
 ## What I studied
 
-I spent time reading through the Supabase authentication code that was written by my teammates — specifically `src/app/core/supabase/supabase.ts`, `src/app/core/services/auth.service.ts`, and the auth screen components (`login`, `register`, `forgot-password`, `change-password`). My goal was to understand how the auth layer worked before wiring the WebSocket backend on top of it.
+Spent some time reading through the Supabase auth code written by teammates — `supabase.ts`, `auth.service.ts`, and the auth screens. I had to understand it because I was building the WebSocket layer on top and needed the session token.
 
-## How the Supabase client is set up
+## How it works
 
-The client is created once in `supabase.ts` and exported as a singleton:
+The client is just a module-level constant:
 
 ```ts
 export const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 
-This is the simplest possible setup and it works well because Supabase's JS client is designed to be a singleton — it manages the session internally (persisted to `localStorage`) and automatically refreshes the access token before it expires. There is no Angular service wrapping the client creation; it is a plain module-level constant, which means it can be imported anywhere without going through DI.
+Simple. `AuthService` wraps it and has `onAuthStateChange()` in the constructor which keeps the `user` signal up to date automatically — covers login, logout, token refresh, OAuth redirects. First time I saw this I thought it was overcomplicated but actually it's quite smart, you get reactivity for free without polling.
 
-`AuthService` then wraps it and exposes Angular-friendly APIs. The constructor calls `supabase.auth.onAuthStateChange()` to keep the `user` signal in sync whenever the session changes (login, logout, token refresh, OAuth callback), and `loadUser()` does an initial check on startup. This pattern means that any component that injects `AuthService` gets a reactive `user` signal that is always up to date without any manual polling.
+## Troubles I met with Supabase specifically
 
-## Troubles I ran into when building on top of it
+### Getting the session token
 
-**1. Getting the session token for the WebSocket handshake**
+`AuthService` exposes the `User` object but not the full `Session` which has `access_token`. I needed the raw token to send to the NestJS backend for WebSocket auth. Had to call `supabase.auth.getSession()` directly in `SocketService` to get it, bypassing `AuthService` entirely. Not ideal but worked.
 
-My first attempt was to read `this.authService.user()` and derive the token from it. But `AuthService` only exposes the `User` object, not the full `Session` (which contains the `access_token`). The token is what the NestJS backend needs to call `supabase.auth.getUser(token)` for verification.
+### The whole project went offline
 
-I had to go directly to `supabase.auth.getSession()` in `SocketService` to get the raw token:
+At some point I noticed every Supabase call was failing with `Failed to fetch`. Turned out the Supabase project (`ozgvczufhxhctexfexpr.supabase.co`) doesn't exist anymore — DNS returns NXDOMAIN. Completely blocked from testing the full auth flow. The worst part is it was completely silent in the app — Supabase uses native fetch not Angular HttpClient so our error interceptor didn't catch it at all, just logged to console. Took a while to figure out what was going wrong.
 
-```ts
-auth: (cb) => {
-  supabase.auth.getSession().then(({ data }) => {
-    cb({ token: data.session?.access_token ?? '' });
-  });
-},
-```
+### Register form showing nothing on error
 
-In hindsight, `AuthService` could expose a `getToken()` method to keep all Supabase interactions in one place, but patching it for the deadline was not worth the risk.
+`Register` component had `OnPush` change detection but stored the error message as a plain class property. When Supabase returned an error (like email rate limit), the property was set but the component never re-rendered. Even worse — the property wasn't even in the template. So errors just disappeared silently. Fixed it by converting to `signal()` and adding the error display to the html. Also added a success message because Supabase requires email confirmation and the old code just redirected to home without saying anything which was confusing.
 
-**2. Supabase project went offline (NXDOMAIN)**
+## What I learned
 
-During development I discovered that the Supabase project `ozgvczufhxhctexfexpr.supabase.co` had been deleted or suspended — DNS returned `NXDOMAIN`. This meant every call through the Supabase client failed with `TypeError: Failed to fetch`. The error was completely silent in the app before our sprint's `errorInterceptor` was added, but even after the interceptor it could only catch Angular `HttpClient` errors — Supabase uses native `fetch` directly, so its failures were invisible to the interceptor and just logged to the console.
+- `onAuthStateChange` is the right way to track sessions in Supabase — it handles all the edge cases I would've missed if I wrote it myself (token refresh timing, OAuth hash parsing)
+- `canActivate` guard calls `getUser()` on every navigation not just on startup — important for expired tokens
+- Supabase errors being invisible to Angular's HttpClient is a real gotcha, you need separate error handling for it
 
-The fix is to create a new Supabase project and update the URL and anon key in `supabase.ts`. But this blocked me from testing the full auth → room → WebSocket flow end to end during the sprint.
-
-**3. Register form errors were invisible**
-
-The `Register` component had `ChangeDetectionStrategy.OnPush` but stored the error message as a plain class property (`errorMessage = ''`). With OnPush, Angular does not re-render the component when a plain property changes after an async operation — only signal or input changes trigger a re-render. The result: Supabase would return an error (e.g. "Email rate limit exceeded"), the property would be set, and nothing would appear on screen.
-
-Compounding this, the error message was not even in the template — the `errorMessage` field was set in the component class but never rendered. I fixed both issues: converted `errorMessage` to a `signal('')` so OnPush re-renders correctly, and added `{{ errorMessage() }}` to the template. I also added a `successMessage` signal to show "Check your email to confirm before signing in" on successful registration, since Supabase requires email confirmation by default and the old code just silently redirected to `/` leaving the user confused.
-
-## What I learned from reading their code
-
-- The `onAuthStateChange` pattern is the correct way to stay in sync with Supabase sessions — it covers login, logout, and the OAuth redirect flow (where the URL hash contains the token) without any extra code in the component.
-- Exporting the Supabase client as a module-level constant rather than through DI is a deliberate trade-off: it makes the client easy to import in non-Angular code (like the NestJS backend helper) but harder to mock in tests. For a project of this scale it is the right call.
-- The `canActivate` guard (`authGuard`) correctly gates the room route by calling `supabase.auth.getUser()` on every navigation, not just on app start — this means an expired or revoked token is caught before the room loads, not after.
+**Time spent:** ~3 hours (reading + debugging)
