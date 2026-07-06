@@ -1,11 +1,13 @@
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { supabase } from '../auth/supabase';
 import { RoomStateService } from './room-state.service';
 import type {
   ChatMessagePayload,
@@ -17,11 +19,23 @@ import type {
 } from './room.types';
 
 @WebSocketGateway({ cors: { origin: '*' } })
-export class RoomGateway {
+export class RoomGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
 
   constructor(private readonly roomState: RoomStateService) {}
+
+  async handleConnection(client: Socket): Promise<void> {
+    const token = client.handshake.auth?.token as string | undefined;
+    if (!token) {
+      client.disconnect();
+      return;
+    }
+    const { error } = await supabase.auth.getUser(token);
+    if (error) {
+      client.disconnect();
+    }
+  }
 
   @SubscribeMessage('joinRoom')
   onJoinRoom(
