@@ -1,11 +1,19 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { PlaylistItem } from '../../shared/playlist/playlist-item.model';
 import { extractVideoId } from '../../utils/extract-video-id';
+import { SocketService } from '../../core/services/socket.service';
+
+interface PlaylistStatePayload {
+  playlist: PlaylistItem[];
+  currentIndex: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaylistService {
+  private readonly socket = inject(SocketService);
+
   readonly playlist = signal<PlaylistItem[]>([]);
   readonly currentIndex = signal<number>(0);
 
@@ -13,30 +21,33 @@ export class PlaylistService {
     () => this.playlist()[this.currentIndex()]?.videoId ?? ''
   );
 
+  constructor() {
+    const applyState = ({ playlist, currentIndex }: PlaylistStatePayload): void => {
+      this.playlist.set(playlist);
+      this.currentIndex.set(currentIndex);
+    };
+
+    this.socket.on<PlaylistStatePayload>('roomState', applyState);
+    this.socket.on<PlaylistStatePayload>('playlistUpdate', applyState);
+  }
+
+  applySnapshot(playlist: PlaylistItem[], currentIndex: number): void {
+    this.playlist.set(playlist);
+    this.currentIndex.set(currentIndex);
+  }
+
   add(url: string): void {
     const videoId = extractVideoId(url);
     if (!videoId) return;
 
-    const item: PlaylistItem = { id: crypto.randomUUID(), videoId, url };
-    this.playlist.update(list => [...list, item]);
-
-    if (this.playlist().length === 1) {
-      this.currentIndex.set(0);
-    }
+    this.socket.emit('playlistAdd', { videoId, url });
   }
 
   select(index: number): void {
-    this.currentIndex.set(index);
+    this.socket.emit('playlistSelect', { index });
   }
 
   remove(id: string): void {
-    const index = this.playlist().findIndex(item => item.id === id);
-    this.playlist.update(list => list.filter(item => item.id !== id));
-
-    if (index < this.currentIndex()) {
-      this.currentIndex.update(i => i - 1);
-    } else if (index === this.currentIndex()) {
-      this.currentIndex.set(Math.min(this.currentIndex(), this.playlist().length - 1));
-    }
+    this.socket.emit('playlistRemove', { id });
   }
 }

@@ -1,13 +1,25 @@
-<div class="room">
-  <div class="room__main">
-    <app-video-player [videoId]="playlist.videoId()" />
-    <app-link-input (submit)="playlist.add($event)" />
-    <app-playlist
-      [items]="playlist.playlist()"
-      [currentIndex]="playlist.currentIndex()"
-      (select)="playlist.select($event)"
-      (remove)="playlist.remove($event)"
-    />
+@if (isLoading()) {
+  <div class="room__loading">
+    <span class="room__spinner"></span>
+    <p>Connecting to room…</p>
   </div>
-  <app-chat class="room__chat" />
-</div>
+} @else if (loadError()) {
+  <div class="room__error">
+    <p>{{ loadError() }}</p>
+    <button (click)="ngOnInit()">Retry</button>
+  </div>
+} @else {
+  <div class="room">
+    <div class="room__main">
+      <app-video-player [videoId]="playlist.videoId()" />
+      <app-link-input (submit)="playlist.add($event)" />
+      <app-playlist
+        [items]="playlist.playlist()"
+        [currentIndex]="playlist.currentIndex()"
+        (select)="playlist.select($event)"
+        (remove)="playlist.remove($event)"
+      />
+    </div>
+    <app-chat class="room__chat" />
+  </div>
+}
