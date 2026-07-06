@@ -87,14 +87,22 @@
 
         </div>
 
-        <button
-                (click)="register()"
-                [disabled]="form.invalid"
-                class="auth__submit"
-                type="button"
-        >
-            Create account
-        </button>
+        @if (errorMessage()) {
+            <p class="auth__error-message">{{ errorMessage() }}</p>
+        }
+
+        @if (successMessage()) {
+            <p class="auth__success-message">{{ successMessage() }}</p>
+        } @else {
+            <button
+                    (click)="register()"
+                    [disabled]="form.invalid"
+                    class="auth__submit"
+                    type="button"
+            >
+                Create account
+            </button>
+        }
 
         <div class="auth__links">
 
